@@ -43,9 +43,9 @@ attr_reader :size, :players, :spaces
       if (space.count == 0)
         puts "#{count}"
       elsif (space.count == 1)
-        puts "#{count}, #{space[0].name}"
+        puts "#{count} #{space[0].name}"
       elsif (space.count == 2)
-        puts "#{count}, #{space[0].name}, #{space[1].name}"
+        puts "#{count} #{space[0].name} #{space[1].name}"
       end
       count +=1
     end

@@ -4,7 +4,7 @@ class Snake
 
   def initialize(location, destination)
     if ( destination < location )
-      @name = "SNAKE"
+      @name = "SNAKE to #{destination}"
       @location = location
       @destination = destination
     else

@@ -4,7 +4,7 @@ class Ladder
 
   def initialize(location, destination)
     if ( destination > location )
-      @name = "LADDER"
+      @name = "LADDER to #{destination}"
       @location = location
       @destination = destination
     else
