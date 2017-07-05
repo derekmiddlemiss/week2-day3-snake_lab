@@ -1,34 +1,65 @@
 require_relative('./board')
 require_relative('./player')
 require_relative('./dice')
+require_relative('./snake')
+require_relative('./ladder')
 
-# puts "Welcome to Snakes and Ladders"
-# puts "What size of game would you like?"
-# size = gets.chomp.to_i
-# puts "How many players?"
-# number_of_players = gets.chomp.to_i
 
-# for count in 1..number_of_players do
-#   puts "What is the name of player #{count}?"
-#   name = gets.chomp
-#   pl
+class Game
 
-player1 = Player.new("John")
-player2 = Player.new("Wendy")
-players = [player1,player2]
-board = Board.new(30,players)
-dice = Dice.new
+  def initialize
+    puts "Welcome to Snakes and Ladders"
 
-victory = false
+    # puts "What size of game would you like?"
+    # @size = gets.chomp.to_i
+    @size = 30
 
-while (victory == false) do
-  for player in players do
-    move = dice.roll_dice
-    puts "Player #{player} has rolled #{move}"
-    board.update(player,move)
-    player.move_player(move)
-    board.print
-    input = gets.chomp
-    puts ""
+    puts "How many players?"
+    @number_of_players = gets.chomp.to_i
+    @players = Array.new(@number_of_players)
+
+    for count in 0..@number_of_players-1 do
+      puts "What is the name of player #{count+1}?"
+      name = gets.chomp
+      @players[count]=Player.new(name)
+    end
+
+    @board = Board.new(@size,@players)
+
+    @dice = Dice.new
+
+    puts "Starting board"
+    @board.print
+    gets.chomp
+
   end
+
+  def play
+
+    @victory = false
+
+    while (@victory == false) do
+      for player in @players do
+
+        move = @dice.roll_dice
+        puts "Player #{player.name} has rolled #{move}"
+        @board.update(player,move) #check whether is a ladder or a snake
+        
+        @board.print
+        input = gets.chomp
+        puts ""
+
+        if player.current_position >= @size
+          @victory = true
+          puts "Player #{player.name} has won!"
+        end
+
+      end
+    end
+
+  end
+
 end
+
+sandl = Game.new()
+sandl.play()
