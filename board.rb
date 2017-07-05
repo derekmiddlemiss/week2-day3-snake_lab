@@ -40,7 +40,13 @@ attr_reader :size, :players, :spaces
   def print
     count = 0
     for space in @spaces
-      puts "#{count}, #{@spaces[count].each {|object| object.name} }"
+      if (space.count == 0)
+        puts "#{count}"
+      elsif (space.count == 1)
+        puts "#{count}, #{space[0].name}"
+      elsif (space.count == 2)
+        puts "#{count}, #{space[0].name}, #{space[1].name}"
+      end
       count +=1
     end
   end
@@ -48,24 +54,24 @@ attr_reader :size, :players, :spaces
 
 
   def update(player,move)
-    finished = false
 
-    while finished == false do
+    finished_update = false
+
+    while ( finished_update == false ) do
 
       current = player.current_position
       @spaces[current].delete(player)
-      new_current = current + move
-      @spaces[new_current].push(player)
+      updated = current + move
+      @spaces[updated].push(player)
       player.move_player(move)
 
-      for event in @spaces[new_current]
-        puts "&&&&& #{event}"
-        if (event.class == Snake) || (event.class == Ladder)
-          move = event.destination - new_current
-          puts "&&&&& #{move}"
+      for thing in @spaces[updated]
+        if (thing.class == Snake) || (thing.class == Ladder)
+          puts "Hit a #{thing.class}!!"
+          move = thing.destination - updated
           break
         else
-          finished = true
+          finished_update = true
         end
       end
 

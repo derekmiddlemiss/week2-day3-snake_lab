@@ -42,17 +42,18 @@ class Game
       for player in @players do
 
         move = @dice.roll_dice
-        puts "Player #{player.name} has rolled #{move}"
-        @board.update(player,move) #check whether is a ladder or a snake
-        
+        puts "#{player.name} has rolled #{move}"
+        if ( player.current_position + move >= @size )
+          @victory = true
+          puts "#{player.name} has won"
+          break
+        else
+          @board.update(player,move) #check whether is a ladder or a snake
+        end
+
         @board.print
         input = gets.chomp
         puts ""
-
-        if player.current_position >= @size
-          @victory = true
-          puts "Player #{player.name} has won!"
-        end
 
       end
     end
