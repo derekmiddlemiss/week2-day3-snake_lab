@@ -14,5 +14,3 @@ class Snake
 
 end
 
-hissy = Snake.new(12,5)
-puts hissy.destination

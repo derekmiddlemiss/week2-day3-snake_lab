@@ -4,13 +4,15 @@ attr_reader :size, :players, :spaces
   def initialize(size,players)
     @size = size
     @players = players
-    @spaces = Array.new(@size+1)
+    @spaces = Array.new( @size+1 )
+    @spaces.map! { |space| space = [] }
 
-    count = 0
-    while (count < size+1) do
-      @spaces[count] = []
-      count +=1
-    end
+    # @spaces = Array.new( @size+1 )
+    # count = 0
+    # while (count < size+1) do
+    #   @spaces[count] = []
+    #   count +=1
+    # end
 
     put_players_on_board
     add_a_snake(12,5)
@@ -38,16 +40,10 @@ attr_reader :size, :players, :spaces
 
 
   def print
-    count = 0
-    for space in @spaces
-      if (space.count == 0)
-        puts "#{count}"
-      elsif (space.count == 1)
-        puts "#{count} #{space[0].name}"
-      elsif (space.count == 2)
-        puts "#{count} #{space[0].name} #{space[1].name}"
-      end
-      count +=1
+    @spaces.each_with_index do |space, position|
+      print_string = "#{position}-"
+      space.each { |thing| print_string += " #{thing.name}" }
+      puts print_string
     end
   end
 
@@ -66,13 +62,16 @@ attr_reader :size, :players, :spaces
       player.move_player(move)
 
       for thing in @spaces[updated]
+
         if (thing.class == Snake) || (thing.class == Ladder)
           puts "Hit a #{thing.class}!!"
+          finished_update = false
           move = thing.destination - updated
           break
         else
           finished_update = true
         end
+
       end
 
     end
